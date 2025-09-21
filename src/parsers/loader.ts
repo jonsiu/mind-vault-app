@@ -4,13 +4,16 @@
  */
 
 import { Loader } from './types'
+import { ZipReader, BlobReader, TextWriter, BlobWriter, Entry } from '@zip.js/zip.js'
 
 export class EPUBLoader implements Loader {
-  private entries: Array<{ filename: string }> = []
+  public entries: Array<{ filename: string }> = []
   private fileMap: Map<string, Blob> = new Map()
+  private zipReader: ZipReader<Blob> | null = null
+  private loadPromise: Promise<void>
 
   constructor(file: File | Blob) {
-    this.loadFile(file)
+    this.loadPromise = this.loadFile(file)
   }
 
   /**
@@ -18,17 +21,14 @@ export class EPUBLoader implements Loader {
    */
   private async loadFile(file: File | Blob): Promise<void> {
     try {
-      // For now, we'll implement a basic ZIP reader
-      // In a full implementation, you'd use a proper ZIP library like zip.js
-      const arrayBuffer = await file.arrayBuffer()
-      const entries = await this.extractZipEntries(arrayBuffer)
+      // Use zip.js for proper ZIP handling
+      this.zipReader = new ZipReader(new BlobReader(file))
+      const entries = await this.zipReader.getEntries()
       
       this.entries = entries.map(entry => ({ filename: entry.filename }))
       
-      // Store file contents in memory
-      for (const entry of entries) {
-        this.fileMap.set(entry.filename, new Blob([entry.data]))
-      }
+      // Pre-load critical files for performance
+      await this.preloadCriticalFiles(entries)
     } catch (error) {
       console.error('Failed to load EPUB file:', error)
       throw new Error('Invalid EPUB file')
@@ -36,78 +36,150 @@ export class EPUBLoader implements Loader {
   }
 
   /**
-   * Extract ZIP entries (simplified implementation)
-   * In a real implementation, you'd use a proper ZIP library
+   * Pre-load critical files for better performance
    */
-  private async extractZipEntries(arrayBuffer: ArrayBuffer): Promise<Array<{ filename: string; data: Uint8Array }>> {
-    // This is a simplified implementation
-    // In practice, you'd use a library like zip.js
-    const entries: Array<{ filename: string; data: Uint8Array }> = []
-    
-    // Basic ZIP parsing (this is very simplified)
-    const view = new DataView(arrayBuffer)
-    let offset = 0
-    
-    while (offset < arrayBuffer.byteLength) {
-      const signature = view.getUint32(offset, true)
-      
-      if (signature === 0x04034b50) { // Local file header signature
-        const filenameLength = view.getUint16(offset + 26, true)
-        const extraFieldLength = view.getUint16(offset + 28, true)
-        const filename = new TextDecoder().decode(
-          new Uint8Array(arrayBuffer, offset + 30, filenameLength)
-        )
-        
-        const dataOffset = offset + 30 + filenameLength + extraFieldLength
-        const compressedSize = view.getUint32(offset + 18, true)
-        
-        // For simplicity, assume uncompressed data
-        const data = new Uint8Array(arrayBuffer, dataOffset, compressedSize)
-        entries.push({ filename, data })
-        
-        offset = dataOffset + compressedSize
-      } else {
-        break
+  private async preloadCriticalFiles(entries: Entry[]): Promise<void> {
+    const criticalFiles = [
+      'META-INF/container.xml',
+      'META-INF/encryption.xml',
+      'META-INF/manifest.xml',
+      'META-INF/metadata.xml',
+      'META-INF/rights.xml',
+      'META-INF/signatures.xml'
+    ]
+
+    for (const entry of entries) {
+      if (criticalFiles.includes(entry.filename) || 
+          entry.filename.endsWith('.opf') ||
+          entry.filename.endsWith('.ncx') ||
+          entry.filename.endsWith('.xhtml') ||
+          entry.filename.endsWith('.html')) {
+        try {
+          if ('getData' in entry) {
+            const blob = await entry.getData(new BlobWriter())
+            this.fileMap.set(entry.filename, blob)
+          }
+        } catch (error) {
+          console.warn(`Failed to preload ${entry.filename}:`, error)
+        }
       }
     }
-    
-    return entries
   }
 
   /**
    * Load text file
    */
   async loadText(filename: string): Promise<string> {
-    const blob = this.fileMap.get(filename)
-    if (!blob) {
-      throw new Error(`File not found: ${filename}`)
+    // Wait for initialization
+    await this.loadPromise
+
+    // Check if already loaded
+    const cachedBlob = this.fileMap.get(filename)
+    if (cachedBlob) {
+      return await cachedBlob.text()
     }
-    
-    return await blob.text()
+
+    // Load from ZIP
+    if (!this.zipReader) {
+      throw new Error('ZIP reader not initialized')
+    }
+
+    try {
+      const entries = await this.zipReader.getEntries()
+      const entry = entries.find(e => e.filename === filename)
+      if (!entry) {
+        throw new Error(`File not found: ${filename}`)
+      }
+
+      if ('getData' in entry) {
+        const text = await entry.getData(new TextWriter())
+        return text
+      } else {
+        throw new Error(`Entry ${filename} is a directory`)
+      }
+    } catch (error) {
+      throw new Error(`Failed to load text file ${filename}: ${error}`)
+    }
   }
 
   /**
    * Load blob file
    */
   async loadBlob(filename: string): Promise<Blob> {
-    const blob = this.fileMap.get(filename)
-    if (!blob) {
-      throw new Error(`File not found: ${filename}`)
+    // Wait for initialization
+    await this.loadPromise
+
+    // Check if already loaded
+    const cachedBlob = this.fileMap.get(filename)
+    if (cachedBlob) {
+      return cachedBlob
     }
-    
-    return blob
+
+    // Load from ZIP
+    if (!this.zipReader) {
+      throw new Error('ZIP reader not initialized')
+    }
+
+    try {
+      const entries = await this.zipReader.getEntries()
+      const entry = entries.find(e => e.filename === filename)
+      if (!entry) {
+        throw new Error(`File not found: ${filename}`)
+      }
+
+      if ('getData' in entry) {
+        const blob = await entry.getData(new BlobWriter())
+        // Cache for future use
+        this.fileMap.set(filename, blob)
+        return blob
+      } else {
+        throw new Error(`Entry ${filename} is a directory`)
+      }
+    } catch (error) {
+      throw new Error(`Failed to load blob file ${filename}: ${error}`)
+    }
   }
 
   /**
    * Get file size
    */
   async getSize(filename: string): Promise<number> {
-    const blob = this.fileMap.get(filename)
-    if (!blob) {
-      throw new Error(`File not found: ${filename}`)
+    // Wait for initialization
+    await this.loadPromise
+
+    // Check if already loaded
+    const cachedBlob = this.fileMap.get(filename)
+    if (cachedBlob) {
+      return cachedBlob.size
     }
-    
-    return blob.size
+
+    // Get from ZIP entry
+    if (!this.zipReader) {
+      throw new Error('ZIP reader not initialized')
+    }
+
+    try {
+      const entries = await this.zipReader.getEntries()
+      const entry = entries.find(e => e.filename === filename)
+      if (!entry) {
+        throw new Error(`File not found: ${filename}`)
+      }
+
+      return entry.uncompressedSize
+    } catch (error) {
+      throw new Error(`Failed to get size for ${filename}: ${error}`)
+    }
+  }
+
+  /**
+   * Cleanup resources
+   */
+  async close(): Promise<void> {
+    if (this.zipReader) {
+      await this.zipReader.close()
+      this.zipReader = null
+    }
+    this.fileMap.clear()
   }
 }
 
