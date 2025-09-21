@@ -39,3 +39,49 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Tauri
+/src-tauri/target/
+/src-tauri/Cargo.lock
+
+# React Native
+# Metro
+.metro-health-check*
+
+# Flipper
+ios/Pods/
+android/app/build/
+android/build/
+android/.gradle/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/app/release/
+
+# Xcode
+ios/build/
+ios/*.xcworkspace
+ios/*.xcuserdata
+ios/Pods/
+ios/Podfile.lock
+
+# Android
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# Database
+/data/
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
