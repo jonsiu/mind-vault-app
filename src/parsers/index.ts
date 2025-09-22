@@ -11,6 +11,9 @@ export * from './mobi'
 export * from './mobi-loader'
 export * from './pdf'
 export * from './pdf-loader'
+export * from './unified-parser'
+export * from './content-extractor'
+export * from './metadata-extractor'
 
 // Re-export main functions for convenience
 export { createEPUBParser } from './epub'
@@ -19,6 +22,9 @@ export { createMOBIParser } from './mobi'
 export { createMOBILoader } from './mobi-loader'
 export { createPDFParser } from './pdf'
 export { createPDFLoader } from './pdf-loader'
+export { createUnifiedParser, quickParse } from './unified-parser'
+export { createContentExtractor } from './content-extractor'
+export { createMetadataExtractor } from './metadata-extractor'
 export { CFIParser } from './epubcfi'
 
 // Main parser functions
