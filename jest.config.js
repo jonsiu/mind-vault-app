@@ -18,7 +18,8 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(pdfjs-dist|uuid)/)'
   ],
-  moduleNameMapping: {
-    '^pdfjs-dist$': '<rootDir>/src/parsers/__tests__/__mocks__/pdfjs-dist.js'
+  moduleNameMapper: {
+    '^pdfjs-dist$': '<rootDir>/src/parsers/__tests__/__mocks__/pdfjs-dist.js',
+    '^uuid$': '<rootDir>/src/ai/__tests__/__mocks__/uuid.js'
   }
 }
