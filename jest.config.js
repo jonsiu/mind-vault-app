@@ -16,7 +16,7 @@ module.exports = {
     '!src/**/__tests__/**'
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(pdfjs-dist)/)'
+    'node_modules/(?!(pdfjs-dist|uuid)/)'
   ],
   moduleNameMapping: {
     '^pdfjs-dist$': '<rootDir>/src/parsers/__tests__/__mocks__/pdfjs-dist.js'
