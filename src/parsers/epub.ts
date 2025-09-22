@@ -12,7 +12,8 @@ import {
   EPUBMetadata,
   EPUBManifest,
   EPUBSpine,
-  EPUBGuide
+  EPUBGuide,
+  Rendition
 } from './types'
 
 // EPUB Namespaces - kept for future use
@@ -22,8 +23,8 @@ import {
 // const RELATORS = { ... }
 
 export class EPUBParser {
-  private container: Document
-  private opf: Document
+  private container!: Document
+  private opf!: Document
   private ncx?: Document
   private nav?: Document
   private loader: Loader
@@ -126,33 +127,33 @@ export class EPUBParser {
     if (!metadata) return
 
     // Parse DC elements
-    this.metadata.title = this.getDCElement(metadata, 'title')
-    this.metadata.creator = this.getDCElement(metadata, 'creator')
-    this.metadata.subject = this.getDCElement(metadata, 'subject')
-    this.metadata.description = this.getDCElement(metadata, 'description')
-    this.metadata.publisher = this.getDCElement(metadata, 'publisher')
-    this.metadata.contributor = this.getDCElement(metadata, 'contributor')
-    this.metadata.date = this.getDCElement(metadata, 'date')
-    this.metadata.type = this.getDCElement(metadata, 'type')
-    this.metadata.format = this.getDCElement(metadata, 'format')
-    this.metadata.identifier = this.getDCElement(metadata, 'identifier')
-    this.metadata.source = this.getDCElement(metadata, 'source')
-    this.metadata.language = this.getDCElement(metadata, 'language')
-    this.metadata.relation = this.getDCElement(metadata, 'relation')
-    this.metadata.coverage = this.getDCElement(metadata, 'coverage')
-    this.metadata.rights = this.getDCElement(metadata, 'rights')
+    this.metadata.title = this.getDCElementAsString(metadata, 'title')
+    this.metadata.creator = this.getDCElementAsString(metadata, 'creator')
+    this.metadata.subject = this.getDCElementAsArray(metadata, 'subject')
+    this.metadata.description = this.getDCElementAsString(metadata, 'description')
+    this.metadata.publisher = this.getDCElementAsString(metadata, 'publisher')
+    this.metadata.contributor = this.getDCElementAsString(metadata, 'contributor')
+    this.metadata.date = this.getDCElementAsString(metadata, 'date')
+    this.metadata.type = this.getDCElementAsString(metadata, 'type')
+    this.metadata.format = this.getDCElementAsString(metadata, 'format')
+    this.metadata.identifier = this.getDCElementAsString(metadata, 'identifier')
+    this.metadata.source = this.getDCElementAsString(metadata, 'source')
+    this.metadata.language = this.getDCElementAsArray(metadata, 'language')
+    this.metadata.relation = this.getDCElementAsString(metadata, 'relation')
+    this.metadata.coverage = this.getDCElementAsString(metadata, 'coverage')
+    this.metadata.rights = this.getDCElementAsString(metadata, 'rights')
 
     // Parse EPUB-specific metadata
-    this.metadata.uniqueIdentifier = metadata.getAttribute('unique-identifier')
+    this.metadata.uniqueIdentifier = metadata.getAttribute('unique-identifier') || undefined
     this.metadata.releaseIdentifier = this.getMetaContent(metadata, 'release-identifier')
     this.metadata.modificationDate = this.getMetaContent(metadata, 'modification-date')
 
     // Parse meta elements
     this.metadata.meta = Array.from(metadata.querySelectorAll('meta')).map(meta => ({
-      name: meta.getAttribute('name'),
-      property: meta.getAttribute('property'),
+      name: meta.getAttribute('name') || undefined,
+      property: meta.getAttribute('property') || undefined,
       content: meta.getAttribute('content') || '',
-      scheme: meta.getAttribute('scheme'),
+      scheme: meta.getAttribute('scheme') || undefined,
     }))
   }
 
@@ -422,6 +423,16 @@ export class EPUBParser {
     if (elements.length === 0) return undefined
     if (elements.length === 1) return elements[0].textContent || ''
     return Array.from(elements).map(el => el.textContent || '')
+  }
+
+  private getDCElementAsString(metadata: Element, name: string): string | undefined {
+    const result = this.getDCElement(metadata, name)
+    return Array.isArray(result) ? result[0] : result
+  }
+
+  private getDCElementAsArray(metadata: Element, name: string): string[] | undefined {
+    const result = this.getDCElement(metadata, name)
+    return Array.isArray(result) ? result : result ? [result] : undefined
   }
 
   private getMetaContent(metadata: Element, name: string): string | undefined {
