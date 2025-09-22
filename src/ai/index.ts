@@ -7,11 +7,13 @@ export * from './types'
 export * from './ai-service'
 export * from './question-answering'
 export * from './learning-science'
+export * from './physical-learning'
 
 // Re-export main functions for convenience
 export { createAIServiceManager } from './ai-service'
 export { createQuestionAnsweringService } from './question-answering'
 export { createLearningScienceService } from './learning-science'
+export { createPhysicalLearningService } from './physical-learning'
 
 // Re-export constants
 export { 
