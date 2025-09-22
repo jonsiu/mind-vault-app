@@ -9,12 +9,16 @@ export * from './epubcfi'
 export * from './loader'
 export * from './mobi'
 export * from './mobi-loader'
+export * from './pdf'
+export * from './pdf-loader'
 
 // Re-export main functions for convenience
 export { createEPUBParser } from './epub'
 export { createEPUBLoader, createDirectoryLoader } from './loader'
 export { createMOBIParser } from './mobi'
 export { createMOBILoader } from './mobi-loader'
+export { createPDFParser } from './pdf'
+export { createPDFLoader } from './pdf-loader'
 export { CFIParser } from './epubcfi'
 
 // Main parser functions
@@ -32,6 +36,13 @@ export async function parseMOBI(file: File | Blob) {
   return await createMOBIParser(loader)
 }
 
+export async function parsePDF(file: File | Blob) {
+  const { createPDFLoader } = await import('./pdf-loader')
+  const { createPDFParser } = await import('./pdf')
+  const loader = await createPDFLoader(file)
+  return await createPDFParser(loader)
+}
+
 // Auto-detect format and parse
 export async function parseEbook(file: File | Blob) {
   const fileName = file instanceof File ? file.name.toLowerCase() : ''
@@ -40,6 +51,8 @@ export async function parseEbook(file: File | Blob) {
     return await parseEPUB(file)
   } else if (fileName.endsWith('.mobi') || fileName.endsWith('.azw')) {
     return await parseMOBI(file)
+  } else if (fileName.endsWith('.pdf')) {
+    return await parsePDF(file)
   } else {
     throw new Error(`Unsupported file format: ${fileName}`)
   }
