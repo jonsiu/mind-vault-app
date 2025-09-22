@@ -3,7 +3,7 @@
  * Basic tests for EPUB parsing functionality
  */
 
-import { parseEPUB, CFIParser } from '../index'
+import { CFIParser } from '../index'
 
 describe('EPUB Parser', () => {
   test('should parse EPUB file', async () => {
@@ -21,7 +21,7 @@ describe('EPUB Parser', () => {
   })
 
   test('should handle CFI stringification', () => {
-    const cfi: any = [[{ index: 6 }, { index: 4 }]]
+    const cfi: Array<Array<{ index: number }>> = [[{ index: 6 }, { index: 4 }]]
     const stringified = CFIParser.stringify(cfi)
     
     expect(stringified).toBe('epubcfi(/6/4)')

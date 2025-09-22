@@ -33,7 +33,7 @@ export async function testEPUBParser(file: File): Promise<void> {
     }
     
     // Test memory usage
-    const memory = (performance as any).memory
+    const memory = (performance as { memory?: { usedJSHeapSize: number } }).memory
     if (memory) {
       const usedMB = memory.usedJSHeapSize / 1024 / 1024
       console.log('💾 Memory usage:', usedMB.toFixed(2), 'MB')

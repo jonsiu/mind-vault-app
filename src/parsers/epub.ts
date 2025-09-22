@@ -4,77 +4,22 @@
  */
 
 import { 
-  Book, 
-  Section, 
   TOCItem, 
   Destination, 
-  Metadata, 
-  Rendition,
   Loader,
   EPUBSection,
   EPUBBook,
-  CFI,
-  CFIRange,
   EPUBMetadata,
   EPUBManifest,
   EPUBSpine,
-  EPUBGuide,
-  EPUBNavPoint,
-  EPUBNavMap,
-  EPUBPageTarget,
-  EPUBPageList
+  EPUBGuide
 } from './types'
 
-// EPUB Namespaces
-const NS = {
-  CONTAINER: 'urn:oasis:names:tc:opendocument:xmlns:container',
-  XHTML: 'http://www.w3.org/1999/xhtml',
-  OPF: 'http://www.idpf.org/2007/opf',
-  EPUB: 'http://www.idpf.org/2007/ops',
-  DC: 'http://purl.org/dc/elements/1.1/',
-  DCTERMS: 'http://purl.org/dc/terms/',
-  ENC: 'http://www.w3.org/2001/04/xmlenc#',
-  NCX: 'http://www.daisy.org/z3986/2005/ncx/',
-  XLINK: 'http://www.w3.org/1999/xlink',
-  SMIL: 'http://www.w3.org/ns/SMIL',
-} as const
-
-// MIME Types
-const MIME = {
-  XML: 'application/xml',
-  NCX: 'application/x-dtbncx+xml',
-  XHTML: 'application/xhtml+xml',
-  HTML: 'text/html',
-  CSS: 'text/css',
-  SVG: 'image/svg+xml',
-  JS: /\/(x-)?(javascript|ecmascript)/,
-} as const
-
-// Reserved prefixes for EPUB
-const PREFIX = {
-  a11y: 'http://www.idpf.org/epub/vocab/package/a11y/#',
-  dcterms: 'http://purl.org/dc/terms/',
-  marc: 'http://id.loc.gov/vocabulary/',
-  media: 'http://www.idpf.org/epub/vocab/overlays/#',
-  onix: 'http://www.editeur.org/ONIX/book/codelists/current.html#',
-  rendition: 'http://www.idpf.org/vocab/rendition/#',
-  schema: 'http://schema.org/',
-  xsd: 'http://www.w3.org/2001/XMLSchema#',
-  msv: 'http://www.idpf.org/epub/vocab/structure/magazine/#',
-  prism: 'http://www.prismstandard.org/specifications/3.0/PRISM_CV_Spec_3.0.htm#',
-} as const
-
-// Relators mapping
-const RELATORS = {
-  art: 'artist',
-  aut: 'author',
-  clr: 'colorist',
-  edt: 'editor',
-  ill: 'illustrator',
-  nrt: 'narrator',
-  trl: 'translator',
-  pbl: 'publisher',
-} as const
+// EPUB Namespaces - kept for future use
+// const NS = { ... }
+// const MIME = { ... }
+// const PREFIX = { ... }
+// const RELATORS = { ... }
 
 export class EPUBParser {
   private container: Document
@@ -453,7 +398,7 @@ export class EPUBParser {
   /**
    * Split TOC href
    */
-  private async splitTOCHref(href: string): Promise<[string, any]> {
+  private async splitTOCHref(href: string): Promise<[string, string | null]> {
     const [sectionHref, fragment] = href.split('#')
     const sectionIndex = this.sections.findIndex(section => section.href === sectionHref)
     return [this.sections[sectionIndex]?.id || '', fragment || null]
@@ -472,7 +417,7 @@ export class EPUBParser {
     return parser.parseFromString(text, 'application/xml')
   }
 
-  private getDCElement(metadata: Element, name: string): any {
+  private getDCElement(metadata: Element, name: string): string | string[] | undefined {
     const elements = metadata.querySelectorAll(`[name()='${name}']`)
     if (elements.length === 0) return undefined
     if (elements.length === 1) return elements[0].textContent || ''
@@ -490,7 +435,7 @@ export class EPUBParser {
   }
 
   private parseNavPoints(navMap: Element): TOCItem[] {
-    return Array.from(navMap.querySelectorAll('navPoint')).map(navPoint => ({
+    return Array.from(navMap.querySelectorAll('navPoint')).map((navPoint: Element) => ({
       label: navPoint.querySelector('navLabel text')?.textContent || '',
       href: navPoint.querySelector('content')?.getAttribute('src') || '',
       subitems: this.parseNavPoints(navPoint)
@@ -498,7 +443,7 @@ export class EPUBParser {
   }
 
   private parseNavList(nav: Element): TOCItem[] {
-    return Array.from(nav.querySelectorAll('ol > li')).map(li => ({
+    return Array.from(nav.querySelectorAll('ol > li')).map((li: Element) => ({
       label: li.querySelector('a')?.textContent || '',
       href: li.querySelector('a')?.getAttribute('href') || '',
       subitems: this.parseNavList(li)

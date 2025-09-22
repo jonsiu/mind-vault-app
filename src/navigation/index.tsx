@@ -28,7 +28,7 @@ export const Stack = createNativeStackNavigator<RootStackParamList>()
 export const Tab = createBottomTabNavigator<TabParamList>()
 
 // Navigation utilities
-export function navigate(name: keyof RootStackParamList, params?: any) {
+export function navigate(name: keyof RootStackParamList, params?: RootStackParamList[keyof RootStackParamList]) {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params)
   }

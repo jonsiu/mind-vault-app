@@ -3,7 +3,7 @@
  * Tests with real EPUB files to ensure requirements compliance
  */
 
-import { parseEPUB, createEPUBLoader } from '../index'
+import { createEPUBLoader } from '../index'
 
 describe('EPUB Parser Integration', () => {
   test('should meet performance requirements', async () => {
@@ -22,7 +22,7 @@ describe('EPUB Parser Integration', () => {
       expect(loadTime).toBeLessThan(2000)
       
       await loader.close()
-    } catch (error) {
+    } catch {
       // Expected to fail with mock content, but should fail fast
       const loadTime = performance.now() - startTime
       expect(loadTime).toBeLessThan(2000)
@@ -31,23 +31,23 @@ describe('EPUB Parser Integration', () => {
 
   test('should handle memory efficiently', async () => {
     // Test memory usage stays under 500MB
-    const initialMemory = (performance as any).memory?.usedJSHeapSize || 0
+    const initialMemory = (performance as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0
     
     const mockFile = new Blob(['mock epub content'], { type: 'application/epub+zip' })
     
     try {
       const loader = await createEPUBLoader(mockFile)
       
-      const currentMemory = (performance as any).memory?.usedJSHeapSize || 0
+      const currentMemory = (performance as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0
       const memoryIncrease = currentMemory - initialMemory
       
       // Memory increase should be reasonable (less than 10MB for this test)
       expect(memoryIncrease).toBeLessThan(10 * 1024 * 1024)
       
       await loader.close()
-    } catch (error) {
+    } catch {
       // Expected to fail with mock content
-      const currentMemory = (performance as any).memory?.usedJSHeapSize || 0
+      const currentMemory = (performance as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0
       const memoryIncrease = currentMemory - initialMemory
       expect(memoryIncrease).toBeLessThan(10 * 1024 * 1024)
     }

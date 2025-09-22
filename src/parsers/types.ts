@@ -13,7 +13,7 @@ export interface Book {
   resolveHref(href: string): Promise<Destination>
   resolveCFI(cfi: string): Promise<Destination>
   isExternal(href: string): boolean
-  splitTOCHref(href: string): Promise<[string, any]>
+  splitTOCHref(href: string): Promise<[string, string | null]>
   getTOCFragment(doc: Document, id: string): Node | null
 }
 
@@ -54,7 +54,7 @@ export interface Metadata {
   relation?: string
   coverage?: string
   rights?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface LocalizedString {
@@ -78,7 +78,7 @@ export interface Rendition {
   viewport?: string
   media?: string
   flow?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface Loader {
@@ -141,7 +141,7 @@ export interface EPUBMetadata {
   releaseIdentifier?: string
   modificationDate?: string
   meta?: Array<{ name?: string; property?: string; content: string; scheme?: string }>
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface EPUBManifest {

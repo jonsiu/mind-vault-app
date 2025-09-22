@@ -16,7 +16,7 @@ export function Button({
   variant = 'primary', 
   size = 'md',
   disabled = false,
-  className = ''
+  className = '' // eslint-disable-line @typescript-eslint/no-unused-vars
 }: ButtonProps) {
   const buttonStyles = getButtonStyles(variant, size, disabled)
   const textStyles = getTextStyles(variant, size, disabled)
@@ -70,7 +70,7 @@ function getButtonStyles(variant: string, size: string, disabled: boolean) {
   }
 }
 
-function getTextStyles(variant: string, size: string, disabled: boolean) {
+function getTextStyles(variant: string, size: string, _disabled: boolean) { // eslint-disable-line @typescript-eslint/no-unused-vars
   const base = {
     fontWeight: '600' as const,
   }
