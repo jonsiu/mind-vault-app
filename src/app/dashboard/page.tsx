@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -7,7 +9,13 @@ export const metadata: Metadata = {
   description: 'Your privacy-focused learning operating system',
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    redirect('/');
+  }
+
   return (
     <DashboardLayout>
       <div className="flex-1 flex flex-col">

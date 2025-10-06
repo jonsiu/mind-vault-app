@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { NoteEditorModal } from '@/components/notes/NoteEditorModal';
+import { InlineNoteEditor } from '@/components/notes/InlineNoteEditor';
 
 interface Note {
   id: string;
@@ -21,45 +21,53 @@ export function KnowledgeHubView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'highlight' | 'knowledge'>('all');
   const [filterTags, setFilterTags] = useState<string[]>([]);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
 
   const handleCreateNote = () => {
-    setIsCreateModalOpen(true);
+    const newNote: Note = {
+      id: `note-${Date.now()}`,
+      title: '',
+      content: '',
+      type: 'knowledge',
+      tags: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      linkedNotes: []
+    };
+    setNotes([newNote, ...notes]);
+    setSelectedNote(newNote);
+    setEditingNote(newNote);
+    setIsEditing(true);
   };
 
   const handleEditNote = (note: Note) => {
     setEditingNote(note);
-    setIsEditModalOpen(true);
+    setIsEditing(true);
   };
 
-  const handleSaveNote = (noteData: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const now = new Date().toISOString();
+  const handleSaveNote = (noteData: Partial<Note>) => {
+    if (!editingNote) return;
     
-    if (editingNote) {
-      // Update existing note
-      const updatedNote: Note = {
-        ...editingNote,
-        ...noteData,
-        updatedAt: now
-      };
-      setNotes(notes.map(note => note.id === editingNote.id ? updatedNote : note));
-      setSelectedNote(updatedNote);
-      setIsEditModalOpen(false);
-      setEditingNote(null);
-    } else {
-      // Create new note
-      const newNote: Note = {
-        id: `note-${Date.now()}`,
-        ...noteData,
-        createdAt: now,
-        updatedAt: now,
-        linkedNotes: []
-      };
-      setNotes([newNote, ...notes]);
-      setSelectedNote(newNote);
-      setIsCreateModalOpen(false);
+    const now = new Date().toISOString();
+    const updatedNote: Note = {
+      ...editingNote,
+      ...noteData,
+      updatedAt: now
+    };
+    
+    setNotes(notes.map(note => note.id === editingNote.id ? updatedNote : note));
+    setSelectedNote(updatedNote);
+    setEditingNote(updatedNote);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditingNote(null);
+    // If it was a new note with no content, remove it
+    if (selectedNote && !selectedNote.title && !selectedNote.content) {
+      setNotes(notes.filter(note => note.id !== selectedNote.id));
+      setSelectedNote(null);
     }
   };
 
@@ -74,6 +82,8 @@ export function KnowledgeHubView() {
 
   const handleNoteClick = (note: Note) => {
     setSelectedNote(note);
+    setEditingNote(note);
+    setIsEditing(true);
   };
 
   const handleSearch = (query: string) => {
@@ -180,24 +190,43 @@ export function KnowledgeHubView() {
               {filteredNotes.map((note) => (
                 <div
                   key={note.id}
-                  onClick={() => handleNoteClick(note)}
-                  className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                  className={`group p-3 rounded-lg cursor-pointer transition-colors ${
                     selectedNote?.id === note.id
                       ? 'bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700'
                       : 'hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-slate-900 dark:text-slate-100 text-sm line-clamp-2">
-                      {note.title}
-                    </h3>
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      note.type === 'highlight'
-                        ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
-                        : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                    }`}>
-                      {note.type}
-                    </span>
+                    <div 
+                      className="flex-1 min-w-0"
+                      onClick={() => handleNoteClick(note)}
+                    >
+                      <h3 className="font-medium text-slate-900 dark:text-slate-100 text-sm line-clamp-2">
+                        {note.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        note.type === 'highlight'
+                          ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
+                          : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                      }`}>
+                        {note.type}
+                      </span>
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteNote(note.id);
+                          }}
+                          size="sm"
+                          variant="outline"
+                          className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mb-2">
                     {note.content}
@@ -229,72 +258,10 @@ export function KnowledgeHubView() {
       {/* Main Content - Note Editor */}
       <div className="flex-1 flex flex-col">
         {selectedNote ? (
-          <div className="flex-1 flex flex-col">
-            {/* Note Header */}
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                    {selectedNote.title}
-                  </h1>
-                  <div className="flex items-center space-x-4 mt-1">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      selectedNote.type === 'highlight'
-                        ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
-                        : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                    }`}>
-                      {selectedNote.type}
-                    </span>
-                    <span className="text-sm text-slate-500 dark:text-slate-400">
-                      Updated {new Date(selectedNote.updatedAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => handleEditNote(selectedNote)}
-                  >
-                    Edit
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => handleDeleteNote(selectedNote.id)}
-                    className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Note Content */}
-            <div className="flex-1 p-4 bg-white dark:bg-slate-800">
-              <div className="prose dark:prose-invert max-w-none">
-                <div className="whitespace-pre-wrap text-slate-900 dark:text-slate-100">
-                  {selectedNote.content}
-                </div>
-              </div>
-            </div>
-
-            {/* Note Footer */}
-            <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-wrap gap-2">
-                  {selectedNote.tags.map(tag => (
-                    <span key={tag} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="text-sm text-slate-500 dark:text-slate-400">
-                  {selectedNote.linkedNotes.length} linked notes
-                </div>
-              </div>
-            </div>
-          </div>
+          <InlineNoteEditor
+            note={editingNote || selectedNote}
+            onSave={handleSaveNote}
+          />
         ) : (
           <div className="flex-1 flex items-center justify-center bg-white dark:bg-slate-800">
             <div className="text-center">
@@ -316,24 +283,6 @@ export function KnowledgeHubView() {
         )}
       </div>
 
-      {/* Note Editor Modals */}
-      <NoteEditorModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSave={handleSaveNote}
-        mode="create"
-      />
-      
-      <NoteEditorModal
-        isOpen={isEditModalOpen}
-        onClose={() => {
-          setIsEditModalOpen(false);
-          setEditingNote(null);
-        }}
-        onSave={handleSaveNote}
-        note={editingNote}
-        mode="edit"
-      />
     </div>
   );
 }

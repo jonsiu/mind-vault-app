@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUser, UserButton } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 
 interface DashboardLayoutProps {
@@ -12,6 +13,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const { user, isLoaded } = useUser();
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: '🏠' },
@@ -79,19 +81,51 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* User section */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200 dark:border-slate-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-slate-300 dark:bg-slate-600 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">U</span>
+          {!isLoaded ? (
+            // Loading state
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse"></div>
+              <div className="flex-1 min-w-0">
+                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mb-1"></div>
+                <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded animate-pulse w-3/4"></div>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
-                User
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                user@example.com
-              </p>
+          ) : user ? (
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-slate-300 dark:bg-slate-600 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  {user.firstName?.charAt(0) || user.emailAddresses[0]?.emailAddress?.charAt(0) || 'U'}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                  {user.firstName && user.lastName 
+                    ? `${user.firstName} ${user.lastName}` 
+                    : user.firstName || 'User'
+                  }
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                  {user.emailAddresses[0]?.emailAddress || 'user@example.com'}
+                </p>
+              </div>
+              <UserButton afterSignOutUrl="/" />
             </div>
-          </div>
+          ) : (
+            // Fallback if no user
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-slate-300 dark:bg-slate-600 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">U</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                  User
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                  user@example.com
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
