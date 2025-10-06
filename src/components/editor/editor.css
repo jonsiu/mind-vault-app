@@ -5,43 +5,337 @@
   overflow: hidden;
 }
 
+/* Global text visibility fix */
+.w-md-editor-text-container textarea {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+}
+
+.dark .w-md-editor-text-container textarea {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+/* More aggressive textarea targeting */
+.w-md-editor-text-input {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+}
+
+.dark .w-md-editor-text-input {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+/* Target the specific textarea class */
+textarea.w-md-editor-text-input {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+}
+
+.dark textarea.w-md-editor-text-input {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+/* Force text visibility with highest specificity */
+.markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-input {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.dark .markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-input {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Target the pre element that actually displays the text */
+.markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-pre {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.dark .markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-pre {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Force visibility in edit mode */
+.w-md-editor-text-pre {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 20px !important;
+}
+
+.dark .w-md-editor-text-pre {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 20px !important;
+}
+
+/* Override any conflicting styles */
+.w-md-editor-text-container .w-md-editor-text-pre {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.dark .w-md-editor-text-container .w-md-editor-text-pre {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
 .markdown-editor-content {
   background: white;
 }
 
 .markdown-editor-content .w-md-editor {
-  background: white;
+  background: white !important;
   border: none;
 }
 
 .markdown-editor-content .w-md-editor-text-container {
-  background: white;
+  background: white !important;
 }
 
 .markdown-editor-content .w-md-editor-text {
-  background: white;
-  color: #1e293b;
+  background: white !important;
+  color: #1e293b !important;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 .markdown-editor-content .w-md-editor-text-pre {
-  background: white;
-  color: #1e293b;
+  background: white !important;
+  color: #1e293b !important;
 }
 
 .markdown-editor-content .w-md-editor-text-input {
-  background: white;
-  color: #1e293b;
+  background: white !important;
+  color: #1e293b !important;
 }
 
 .markdown-editor-content .w-md-editor-preview {
-  background: white;
-  color: #1e293b;
+  background: white !important;
+  color: #1e293b !important;
 }
 
 .markdown-editor-content .w-md-editor-preview .wmde-markdown {
-  background: white;
+  background: white !important;
+  color: #1e293b !important;
+}
+
+/* Fix text visibility in editor */
+.markdown-editor-content .w-md-editor-text-container textarea {
+  color: #1e293b !important;
+  background: white !important;
+}
+
+.markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
+  color: #1e293b !important;
+  background: white !important;
+}
+
+/* Force text visibility in all editor elements */
+.markdown-editor-content .w-md-editor-text-container * {
+  color: #1e293b !important;
+}
+
+.markdown-editor-content .w-md-editor-text-container textarea,
+.markdown-editor-content .w-md-editor-text-container input {
+  color: #1e293b !important;
+  background: white !important;
+}
+
+/* More aggressive text visibility fixes */
+.markdown-editor-content .w-md-editor-text-container textarea {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+}
+
+.markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
+  color: #1e293b !important;
+  background: white !important;
+  opacity: 1 !important;
+}
+
+/* Force visibility on all text elements */
+.markdown-editor-content .w-md-editor-text-container textarea::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+/* Dark mode text visibility fixes */
+.dark .markdown-editor-content .w-md-editor-text-container * {
+  color: #f1f5f9 !important;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container textarea,
+.dark .markdown-editor-content .w-md-editor-text-container input {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+}
+
+/* More aggressive dark mode text visibility */
+.dark .markdown-editor-content .w-md-editor-text-container textarea {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* Markdown preview styling */
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
   color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.875rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0.75rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h4 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin: 0.625rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown h6 {
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown p {
+  margin: 0.5rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown strong {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown em {
+  font-style: italic;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown code {
+  background: #f1f5f9;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown pre {
+  background: #f1f5f9;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown pre code {
+  background: transparent;
+  padding: 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown li {
+  margin: 0.25rem 0;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown blockquote {
+  border-left: 4px solid #e2e8f0;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  color: #64748b;
+  font-style: italic;
 }
 
 /* Dark mode styles */
@@ -54,36 +348,96 @@
 }
 
 .dark .markdown-editor-content .w-md-editor {
-  background: #1e293b;
+  background: #1e293b !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-text-container {
-  background: #1e293b;
+  background: #1e293b !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-text {
-  background: #1e293b;
-  color: #f1f5f9;
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-text-pre {
-  background: #1e293b;
-  color: #f1f5f9;
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-text-input {
-  background: #1e293b;
-  color: #f1f5f9;
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-preview {
-  background: #1e293b;
-  color: #f1f5f9;
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
 }
 
 .dark .markdown-editor-content .w-md-editor-preview .wmde-markdown {
-  background: #1e293b;
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+/* Dark mode text visibility fixes */
+.dark .markdown-editor-content .w-md-editor-text-container textarea {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
+  color: #f1f5f9 !important;
+  background: #1e293b !important;
+}
+
+/* Dark mode markdown preview styling */
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h1,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h2,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h3,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h4,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h5,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h6 {
   color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown p {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown strong {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown em {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown code {
+  background: #334155;
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown pre {
+  background: #334155;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown pre code {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown ul,
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown ol {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown li {
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown blockquote {
+  border-left-color: #475569;
+  color: #94a3b8;
 }
 
 /* Custom scrollbar */

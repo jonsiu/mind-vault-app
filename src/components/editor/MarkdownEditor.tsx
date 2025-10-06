@@ -5,6 +5,9 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/Button';
 import './editor.css';
 
+// Import markdown editor CSS
+import '@uiw/react-md-editor/markdown-editor.css';
+
 // Dynamically import the markdown editor to avoid SSR issues
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -30,6 +33,85 @@ export function MarkdownEditor({
   className = ''
 }: MarkdownEditorProps) {
   const [isPreview, setIsPreview] = useState(false);
+
+  // Force synchronization between textarea and pre element
+  useEffect(() => {
+    const syncText = () => {
+      const textarea = document.querySelector('.w-md-editor-text-input');
+      const pre = document.querySelector('.w-md-editor-text-pre');
+      if (textarea && pre) {
+        // Force the pre element to show the textarea content
+        pre.textContent = textarea.value;
+        // Force visibility with inline styles
+        pre.style.color = '#1e293b !important';
+        pre.style.backgroundColor = 'white !important';
+        pre.style.opacity = '1 !important';
+        pre.style.visibility = 'visible !important';
+        pre.style.display = 'block !important';
+        pre.style.position = 'relative !important';
+        pre.style.zIndex = '1 !important';
+      }
+    };
+
+    // Sync immediately
+    syncText();
+
+    // Set up interval to sync more frequently
+    const interval = setInterval(syncText, 50);
+
+    return () => clearInterval(interval);
+  }, [value]);
+
+  // Additional synchronization on input events
+  useEffect(() => {
+    const handleInput = (e) => {
+      const textarea = document.querySelector('.w-md-editor-text-input');
+      const pre = document.querySelector('.w-md-editor-text-pre');
+      if (textarea && pre) {
+        // Force synchronization
+        pre.textContent = textarea.value;
+        // Force visibility with inline styles
+        pre.style.color = '#1e293b !important';
+        pre.style.backgroundColor = 'white !important';
+        pre.style.opacity = '1 !important';
+        pre.style.visibility = 'visible !important';
+        pre.style.display = 'block !important';
+        pre.style.position = 'relative !important';
+        pre.style.zIndex = '1 !important';
+        
+        // Also trigger the onChange to update the component state
+        if (onChange) {
+          onChange(textarea.value);
+        }
+      }
+    };
+
+    // Wait for the editor to be fully rendered
+    const timeout = setTimeout(() => {
+      const textarea = document.querySelector('.w-md-editor-text-input');
+      if (textarea) {
+        textarea.addEventListener('input', handleInput);
+        textarea.addEventListener('keyup', handleInput);
+        textarea.addEventListener('keydown', handleInput);
+        textarea.addEventListener('change', handleInput);
+        textarea.addEventListener('paste', handleInput);
+        textarea.addEventListener('cut', handleInput);
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+      const textarea = document.querySelector('.w-md-editor-text-input');
+      if (textarea) {
+        textarea.removeEventListener('input', handleInput);
+        textarea.removeEventListener('keyup', handleInput);
+        textarea.removeEventListener('keydown', handleInput);
+        textarea.removeEventListener('change', handleInput);
+        textarea.removeEventListener('paste', handleInput);
+        textarea.removeEventListener('cut', handleInput);
+      }
+    };
+  }, [onChange]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Save on Ctrl/Cmd + S
@@ -63,26 +145,6 @@ export function MarkdownEditor({
           </span>
         </div>
         
-        <div className="flex items-center space-x-2">
-          {onCancel && (
-            <Button
-              onClick={onCancel}
-              variant="outline"
-              size="sm"
-            >
-              Cancel
-            </Button>
-          )}
-          {onSave && (
-            <Button
-              onClick={onSave}
-              size="sm"
-              className="bg-green-600 hover:bg-green-700"
-            >
-              Save
-            </Button>
-          )}
-        </div>
       </div>
 
       {/* Editor */}
@@ -99,6 +161,9 @@ export function MarkdownEditor({
             style: {
               fontSize: '14px',
               fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+              color: '#1e293b',
+              backgroundColor: 'white',
+              opacity: 1,
             },
           }}
           commands={[
