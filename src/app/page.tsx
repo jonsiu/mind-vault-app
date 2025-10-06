@@ -1,7 +1,11 @@
-import { SignInButton, SignUpButton } from '@clerk/nextjs';
+'use client';
+
+import { SignInButton, SignUpButton, useUser, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export default function Home() {
+  const { isSignedIn, isLoaded, user } = useUser();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-16">
@@ -14,16 +18,35 @@ export default function Home() {
             <span className="text-2xl font-bold text-slate-900 dark:text-slate-100">Mind Vault</span>
           </div>
           <div className="flex items-center space-x-4">
-            <SignInButton mode="modal">
-              <button className="px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
-                Sign In
-              </button>
-            </SignInButton>
-            <SignUpButton mode="modal">
-              <button className="px-6 py-2 bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
-                Get Started
-              </button>
-            </SignUpButton>
+            {!isLoaded ? (
+              // Loading state
+              <div className="w-20 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
+            ) : isSignedIn ? (
+              // User is signed in - show user button and dashboard link
+              <div className="flex items-center space-x-4">
+                <Link 
+                  href="/dashboard"
+                  className="px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              // User is not signed in - show auth buttons
+              <>
+                <SignInButton mode="modal">
+                  <button className="px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="px-6 py-2 bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                    Get Started
+                  </button>
+                </SignUpButton>
+              </>
+            )}
           </div>
         </header>
 
@@ -40,11 +63,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <SignUpButton mode="modal">
-              <button className="px-8 py-4 bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg text-lg font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
-                Start Learning
-              </button>
-            </SignUpButton>
+            {isLoaded && isSignedIn ? (
+              <Link href="/dashboard" className="px-8 py-4 bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg text-lg font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                Go to Dashboard
+              </Link>
+            ) : (
+              <SignUpButton mode="modal">
+                <button className="px-8 py-4 bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg text-lg font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                  Start Learning
+                </button>
+              </SignUpButton>
+            )}
             <Link href="/features" className="px-8 py-4 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg text-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
               Learn More
             </Link>

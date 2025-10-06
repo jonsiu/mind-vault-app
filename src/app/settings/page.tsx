@@ -1,12 +1,20 @@
 import { Metadata } from 'next';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Settings - Mind Vault',
   description: 'Configure your Mind Vault preferences',
 };
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    redirect('/');
+  }
+
   return (
     <DashboardLayout>
       <div className="p-6">
