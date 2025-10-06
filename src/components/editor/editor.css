@@ -1,0 +1,117 @@
+/* Markdown Editor Styles */
+.markdown-editor {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.markdown-editor-content {
+  background: white;
+}
+
+.markdown-editor-content .w-md-editor {
+  background: white;
+  border: none;
+}
+
+.markdown-editor-content .w-md-editor-text-container {
+  background: white;
+}
+
+.markdown-editor-content .w-md-editor-text {
+  background: white;
+  color: #1e293b;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.markdown-editor-content .w-md-editor-text-pre {
+  background: white;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-text-input {
+  background: white;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview {
+  background: white;
+  color: #1e293b;
+}
+
+.markdown-editor-content .w-md-editor-preview .wmde-markdown {
+  background: white;
+  color: #1e293b;
+}
+
+/* Dark mode styles */
+.dark .markdown-editor {
+  border-color: #475569;
+}
+
+.dark .markdown-editor-content {
+  background: #1e293b;
+}
+
+.dark .markdown-editor-content .w-md-editor {
+  background: #1e293b;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container {
+  background: #1e293b;
+}
+
+.dark .markdown-editor-content .w-md-editor-text {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-pre {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-input {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+/* Custom scrollbar */
+.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
