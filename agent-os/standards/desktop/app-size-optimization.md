@@ -1,0 +1,24 @@
+## Desktop app size optimization
+
+- **Bundle Size Target**: Aim for <100MB installer; users notice and complain about large downloads
+- **ASAR Archive**: Package app files in ASAR archive; faster loading and smaller size
+- **ASAR Integrity**: Use asarIntegrity to verify ASAR wasn't tampered with
+- **Exclude Dev Dependencies**: Don't bundle devDependencies; only production dependencies
+- **Prune Node Modules**: Prune unnecessary files from node_modules; many packages include tests, docs
+- **Tree Shaking**: Use tree shaking to eliminate dead code; configure webpack/rollup appropriately
+- **Code Splitting**: Split code into chunks; lazy load non-critical features
+- **Minification**: Minify JavaScript in production; reduce bundle size significantly
+- **Compression**: Compress assets (images, videos); use appropriate formats (WebP for images, H.265 for video)
+- **Image Optimization**: Optimize images with tools like imagemin; remove metadata
+- **Font Subsetting**: Subset fonts to include only needed glyphs; huge savings for non-Latin scripts
+- **Remove Source Maps**: Don't include source maps in production builds; only for debugging
+- **Native Dependencies**: Minimize native dependencies; they're large and platform-specific
+- **Electron Version**: Newer Electron versions may be larger/smaller; balance features vs size
+- **Framework Size**: Consider framework size (React vs Preact, Vue vs Svelte); smaller = better
+- **Dynamic Imports**: Use dynamic imports for large libraries; load only when needed
+- **Build Target**: Build for specific Electron/Node version; enables more optimizations
+- **NSIS Compression**: Use maximum NSIS compression for Windows installer; slower build, smaller installer
+- **DMG Optimization**: Optimize DMG size on macOS; use compression
+- **AppImage Size**: AppImage includes runtime; larger than other Linux formats
+- **Differential Updates**: Implement differential updates; users download only changes, not full app
+- **Benchmark**: Track bundle size over time; alert on size increases

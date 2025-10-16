@@ -1,0 +1,22 @@
+## Desktop app process management
+
+- **Main Process**: Single main process manages application lifecycle, windows, and system integration
+- **Renderer Processes**: One renderer process per window (Electron); isolated for security
+- **Process Isolation**: Enable context isolation and sandbox for renderer processes
+- **IPC Communication**: Use IPC for main-renderer communication; contextBridge for secure exposure
+- **Window Management**: Create/close windows from main process; track window state
+- **Multi-Window State**: Synchronize state across multiple windows; use IPC or shared state store
+- **Window Lifecycle**: Handle window events (close, minimize, maximize, focus, blur)
+- **Prevent Accidental Close**: Confirm before closing window with unsaved changes
+- **Background Windows**: Keep windows alive in background or close to free memory
+- **Window Restoration**: Save and restore window position, size, and state
+- **Display Management**: Handle multi-monitor setups; restore windows to correct display
+- **Process Crashes**: Handle renderer process crashes gracefully; reload or show error
+- **Memory Management**: Monitor memory usage; close unused windows to free memory
+- **Process Priority**: Set process priority appropriately; lower for background tasks
+- **Child Processes**: Spawn child processes for heavy tasks; use Node child_process
+- **Process Communication**: Communicate with child processes via stdio or IPC
+- **Graceful Shutdown**: Clean up resources on app quit; save state before exit
+- **Force Quit Handling**: Handle force quit (SIGTERM); limited cleanup time
+- **Single Instance**: Optionally enforce single instance; bring existing instance to focus
+- **Deep Links**: Register protocol handler; open app from URLs

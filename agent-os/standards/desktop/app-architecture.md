@@ -1,0 +1,37 @@
+## Desktop app architecture patterns
+
+- **Framework Choice**: Choose appropriate framework (Electron, Tauri, React Native Desktop, Next.js + Tauri)
+- **Process Architecture**: Understand main process vs renderer process (Electron) or frontend vs Rust backend (Tauri)
+- **Context Isolation**: Enable context isolation in Electron; security boundary between renderer and Node
+- **Sandbox**: Enable sandbox for renderer processes; prevents access to Node APIs by default
+- **Preload Scripts**: Use preload scripts with contextBridge to expose APIs to renderer securely
+- **IPC Communication**: Use IPC for communication between processes/layers; invoke/handle for request/response
+- **IPC Security**: Validate all IPC messages; don't trust renderer process; implement authorization
+- **IPC Performance**: Batch IPC messages when possible; each IPC call has overhead
+- **Structured Clone**: IPC uses structured clone algorithm; not all objects serializable; avoid large payloads
+- **State Management**: Centralize state management (Redux, Zustand, MobX, Jotai, Valtio)
+- **State Synchronization**: Synchronize state between main and renderer; use IPC or state replication
+- **Offline-First**: Design for offline-first; local database, sync when online
+- **Separation of Concerns**: Separate UI (renderer), business logic (main/shared), and native integration (main)
+- **Plugin Architecture**: Design plugin system if extensibility is needed; isolate plugins in separate processes
+- **Plugin Sandboxing**: Sandbox plugins; limit API access; prevent malicious plugins
+- **Module Boundaries**: Define clear module boundaries and dependencies; avoid circular dependencies
+- **Dependency Injection**: Use DI for testability and modularity; easier to mock and test
+- **Event-Driven**: Use event emitters for loosely coupled components; avoid tight coupling
+- **Service Layer**: Abstract platform-specific code behind service interfaces; Windows/macOS/Linux differences
+- **Platform Detection**: Detect platform at runtime; conditional code for platform-specific features
+- **Native Modules**: Isolate native code in separate modules; N-API for cross-version compatibility
+- **Update Architecture**: Design for in-app updates and version migration; handle schema changes
+- **Performance**: Optimize startup time (< 2 seconds to window) and runtime performance
+- **Lazy Loading**: Lazy load features; don't initialize everything on startup
+- **Code Splitting**: Split code into chunks; load renderer code on demand
+- **Memory Management**: Monitor and optimize memory usage; use heap snapshots to find leaks
+- **Resource Cleanup**: Clean up resources (event listeners, timers, file handles) when done
+- **File System**: Use OS-specific paths (app.getPath); don't assume hardcoded paths
+- **Data Storage**: Store data in correct location (userData); persist across updates
+- **Configuration**: Store configuration in JSON/YAML; validate on load; provide defaults
+- **Logging**: Centralize logging; log to file in production; use log levels
+- **Error Handling**: Global error handlers for uncaught exceptions and promise rejections
+- **Crash Reporting**: Implement crash reporting; capture crashes in production (Sentry, BugSplat)
+- **Analytics**: Optional analytics for usage patterns; respect privacy; make opt-in
+- **Testing**: Design for testability; unit tests for business logic, integration tests for IPC, E2E for UI
