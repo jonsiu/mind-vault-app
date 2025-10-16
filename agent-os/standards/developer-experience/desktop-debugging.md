@@ -1,0 +1,22 @@
+## Desktop app debugging
+
+- **DevTools**: Enable DevTools in development; Cmd/Ctrl+Option/Alt+I to open
+- **Main Process Debugging**: Attach debugger to main process; use --inspect or --inspect-brk flags
+- **Renderer Debugging**: Use Chrome DevTools for renderer process; same tools as web development
+- **VSCode Debugging**: Configure VSCode debugger; launch.json for Electron debugging
+- **Breakpoints**: Set breakpoints in main and renderer code; step through execution
+- **Console Logging**: Use console.log extensively; differentiate main vs renderer logs
+- **IPC Debugging**: Log all IPC messages; helps track communication issues
+- **Network Inspection**: Use DevTools Network tab; inspect HTTP requests from renderer
+- **Performance Profiling**: Use Performance tab; identify slow operations and memory leaks
+- **Memory Profiling**: Take heap snapshots; find memory leaks and excessive allocations
+- **Native Module Debugging**: Use lldb (macOS/Linux) or Visual Studio debugger (Windows) for native code
+- **Crash Reports**: Implement crash reporting (Sentry, Crashpad); capture crashes in production
+- **Error Boundaries**: Use error boundaries in React/Vue; catch renderer errors gracefully
+- **Main Process Errors**: Catch uncaught exceptions and promise rejections in main process
+- **Logging to File**: Log to file in production; helps debug issues users report
+- **Log Rotation**: Rotate log files; don't let logs grow unbounded
+- **Remote Debugging**: Debug packaged app with remote DevTools; electron --remote-debugging-port
+- **Source Maps**: Generate source maps for TypeScript/bundled code; debug original source
+- **Environment Flags**: Use environment variables to enable debug features in production
+- **Reproduction**: Make issues reproducible; provide steps and sample files

@@ -1,0 +1,23 @@
+## Code signing and notarization
+
+- **Why Sign**: Prevent "Unknown Developer" warnings; users trust signed apps more
+- **macOS Signing**: Required; unsigned apps blocked by Gatekeeper (macOS 10.15+)
+- **Apple Developer ID**: Obtain from Apple Developer Program ($99/year)
+- **Certificate Types**: Developer ID Application (for distribution outside App Store)
+- **Keychain**: Install certificate in Keychain; electron-builder auto-detects
+- **Notarization**: Required since macOS 10.15; Apple scans app for malware
+- **Notarization Process**: Upload to Apple, wait for scan (minutes to hours), staple ticket to app
+- **Stapling**: Attach notarization ticket to app; works offline after stapling
+- **Hardened Runtime**: Enable hardened runtime for notarization; restricts dangerous APIs
+- **Entitlements**: Request entitlements for features (camera, microphone, JIT); use entitlements.plist
+- **electron-notarize**: Use electron-notarize package to automate notarization in build
+- **Windows Signing**: Optional but highly recommended; prevents SmartScreen warnings
+- **Windows Certificate**: Purchase code signing certificate from CA (DigiCert, Sectigo)
+- **EV Certificates**: Extended Validation certificates build SmartScreen reputation faster
+- **SmartScreen**: Initially shows warning for new certificates; builds reputation over downloads/time
+- **Certificate Storage**: Store certificate securely; don't commit to repository
+- **CI Signing**: Sign in CI; use encrypted environment variables for certificate
+- **Timestamping**: Use timestamp server when signing; signature valid after certificate expires
+- **Linux AppImage**: Optionally sign AppImage; not widely used yet
+- **Verification**: Verify signature after building; codesign -vvv (macOS), signtool /verify (Windows)
+- **Auto-Update Signatures**: Sign update files; app verifies before applying update

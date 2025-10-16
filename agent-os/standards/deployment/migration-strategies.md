@@ -1,0 +1,22 @@
+## Update and migration strategies
+
+- **Breaking Changes**: Plan for breaking changes; database schema changes, config format changes
+- **Version Detection**: Detect app version on startup; run migrations if needed
+- **Database Migrations**: Apply database migrations sequentially; track applied migrations
+- **Migration Scripts**: Write idempotent migration scripts; safe to run multiple times
+- **Backward Compatibility**: Maintain backward compatibility when possible; reduces migration complexity
+- **Data Backup**: Backup user data before migrations; allow rollback if migration fails
+- **Migration UI**: Show migration progress to user; don't leave user wondering what's happening
+- **Migration Errors**: Handle migration errors gracefully; don't leave app in broken state
+- **Rollback Plan**: Plan for rollback; downgrade migrations or restore from backup
+- **Config Migration**: Migrate config files; old format to new format
+- **Settings Migration**: Preserve user settings across versions; map old settings to new structure
+- **Cache Invalidation**: Invalidate caches after migrations; old cached data may be incompatible
+- **Multi-Version Support**: Support reading old and new formats during transition period
+- **Deprecation Warnings**: Warn users about deprecated features; give time to adjust
+- **Testing Migrations**: Test migrations with real user data; edge cases often missed in testing
+- **Migration Logging**: Log migration steps; helps debug issues users encounter
+- **User Communication**: Communicate breaking changes; release notes, in-app notifications
+- **Gradual Rollout**: Roll out breaking changes gradually; canary, beta, stable channels
+- **Version Skipping**: Handle users skipping versions; cumulative migrations
+- **Downgrade Protection**: Optionally prevent downgrade if data format incompatible

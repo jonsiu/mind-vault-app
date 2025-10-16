@@ -1,0 +1,7 @@
+version: 2.0.4
+last_compiled: 2025-10-16 14:59:17
+profile: desktop-app
+multi_agent_mode: true
+multi_agent_tool: claude-code
+single_agent_mode: true
+single_agent_tool: generic

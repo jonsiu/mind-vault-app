@@ -1,0 +1,41 @@
+## Auto-update mechanism for desktop apps
+
+- **Update Strategy**: Use electron-updater (Electron), Tauri updater (Tauri), or Squirrel (cross-platform)
+- **Update Server**: Host updates on static server, S3, GitHub Releases, or dedicated update server
+- **Update Channels**: Support multiple channels (stable, beta, alpha/nightly); users opt into beta/alpha
+- **Channel Switching**: Allow switching channels; beta users can return to stable
+- **Update Checks**: Check for updates on launch and periodically (every 4-24 hours)
+- **Check Timing**: Don't check immediately on launch; wait 5-10 min to not slow startup
+- **Background Updates**: Download updates in background; don't block user from working
+- **Bandwidth Awareness**: Respect metered connections; warn or skip downloads on metered networks
+- **Update Notifications**: Show unobtrusive notification when update available; don't interrupt
+- **Forced Updates**: Support forced updates for critical security fixes; update required to continue
+- **Grace Period**: Give users grace period before forced update (24-72 hours)
+- **Optional Updates**: Allow users to skip optional feature updates; remind later
+- **Skip Version**: Allow skipping specific version; don't nag if user declines
+- **Release Notes**: Show release notes before updating; highlight new features and fixes
+- **Update Scope**: Clearly indicate update scope (minor fixes, major features, security patches)
+- **Update Progress**: Show download and installation progress; don't leave user wondering
+- **Pause/Resume**: Allow pausing and resuming large downloads
+- **Differential Updates**: Use delta/differential updates to minimize download size; 90%+ size reduction possible
+- **Delta Generation**: Generate deltas during release process; use tools like bsdiff or courgette
+- **Full Fallback**: Fall back to full download if delta fails; ensure robustness
+- **Rollback Support**: Support rolling back to previous version if update causes issues
+- **Rollback UI**: Provide UI for rollback; don't require technical knowledge
+- **Update Verification**: Verify update signature before installing; prevent malicious updates
+- **Checksum Verification**: Verify checksum (SHA256) after download; detect corruption
+- **Signature Checking**: Check code signature on downloaded update; match publisher
+- **Restart Handling**: Handle restart gracefully; prompt to save work before restart
+- **Install on Quit**: Optionally install update on next quit instead of immediate restart
+- **Silent Updates**: For minor updates, optionally update silently on quit; no user interaction
+- **Offline Handling**: Handle update failures gracefully; retry later with exponential backoff
+- **Partial Download Recovery**: Resume interrupted downloads; don't restart from beginning
+- **Update Logs**: Log update attempts, successes, failures; helps debug user issues
+- **Staged Rollout**: Roll out updates gradually; 10% → 50% → 100%; monitor error rates
+- **Canary Builds**: Offer canary builds to willing users; catch issues before stable release
+- **Version Skipping**: Support skipping versions; user on 1.0 can update directly to 1.5
+- **Migration Handling**: Run data migrations after update; handle breaking changes
+- **Downgrade Protection**: Optionally prevent downgrading to prevent data corruption
+- **Update Analytics**: Track update adoption rates; identify users stuck on old versions
+- **Automatic Updates**: Optionally enable automatic updates; download and install without prompting
+- **User Consent**: Respect user preference; some users want manual control over updates

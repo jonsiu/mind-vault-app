@@ -1,0 +1,21 @@
+## Native module development and integration
+
+- **When to Use**: Use native modules for performance-critical code, system APIs not in Electron/Node
+- **Node-API (N-API)**: Use N-API for version-independent native modules; stable across Node versions
+- **Prebuild**: Provide prebuilt binaries for common platforms; avoid requiring users to compile
+- **prebuildify**: Use prebuildify to generate prebuilts during CI; publish to npm
+- **node-gyp**: Build tool for native modules; requires Python and build tools
+- **Build Dependencies**: Document build dependencies (Python, Visual Studio, Xcode, gcc)
+- **Cross-Compilation**: Cross-compile for all platforms from single CI job; use electron-build-service
+- **Electron Rebuild**: Rebuild native modules for Electron's Node version; use electron-rebuild
+- **ABI Compatibility**: Match native module ABI to Electron/Node version; mismatches cause crashes
+- **Error Handling**: Handle native module errors gracefully; missing module shouldn't crash app
+- **Fallback**: Provide JavaScript fallback when native module unavailable or fails to load
+- **Security**: Validate inputs before passing to native code; buffer overflows can cause crashes/exploits
+- **Memory Management**: Manage memory carefully in native code; leaks accumulate over time
+- **Threading**: Native modules can use threads; be careful with thread safety and GC
+- **Async Work**: Use async work queue for long-running native operations; don't block main thread
+- **Rust Native Modules**: Consider Rust with neon for safer native modules
+- **Debugging**: Debug native modules with lldb/gdb; use debug symbols in development
+- **Testing**: Test native modules on all target platforms; platform-specific bugs common
+- **Licensing**: Check licenses of native libraries; some incompatible with commercial use

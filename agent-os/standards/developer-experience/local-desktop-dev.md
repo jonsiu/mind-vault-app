@@ -1,0 +1,23 @@
+## Local desktop app development
+
+- **Quick Start**: Optimize "clone to running" time; aim for under 5 minutes
+- **npm/yarn start**: Single command to start app in development mode
+- **Hot Reload**: Implement hot reload for renderer; electron-reload or webpack HMR
+- **Main Process Reload**: Auto-restart main process on changes; nodemon or electron-reload
+- **Fast Rebuilds**: Use incremental compilation; webpack/esbuild in watch mode
+- **Native Module Rebuild**: Auto-rebuild native modules when switching Node versions
+- **Environment Setup**: Document prerequisites (Node, Python, build tools)
+- **Multiple Platforms**: Provide setup instructions for Windows, macOS, Linux
+- **Mock Data**: Provide seed data for local development; realistic test data
+- **Feature Flags**: Use feature flags for work-in-progress features
+- **Database Setup**: If app uses local database, provide init script and seed data
+- **API Mocking**: Mock external APIs for offline development; use electron-mock-ipc for IPC mocking
+- **DevTools Extensions**: Install React/Vue DevTools for renderer debugging
+- **Error Overlay**: Show error overlay in renderer when errors occur
+- **Linting**: Run linters on save; catch errors early (ESLint, Prettier)
+- **Type Checking**: Use TypeScript with incremental mode; fast type checking on save
+- **Testing**: Easy to run tests locally; npm test for unit tests
+- **E2E Testing**: Run E2E tests with Spectron or Playwright; test full app flow
+- **Build**: Document build process; npm run build for production build
+- **Packaging**: Document packaging; npm run dist to create installer
+- **Troubleshooting**: Maintain troubleshooting guide; common issues and solutions
