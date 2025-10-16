@@ -1,471 +1,164 @@
-/* Markdown Editor Styles */
-.markdown-editor {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  overflow: hidden;
+/* Markdown Preview Styles - Based on Obsidian's markdown-preview-view */
+.markdown-preview {
+  font-family: var(--font-text, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-normal, #2c3e50);
+  word-wrap: break-word;
+  max-width: none;
 }
 
-/* Global text visibility fix */
-.w-md-editor-text-container textarea {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
+.dark .markdown-preview {
+  color: var(--text-normal, #dcddde);
 }
 
-.dark .w-md-editor-text-container textarea {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
+.markdown-preview h1 {
+  font-size: 1.875em;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.5em 0 0.5em 0;
+  color: var(--text-accent, #2c3e50);
+  border-bottom: 2px solid var(--background-modifier-border, #e1e4e8);
+  padding-bottom: 0.3em;
 }
 
-/* More aggressive textarea targeting */
-.w-md-editor-text-input {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
+.dark .markdown-preview h1 {
+  color: var(--text-accent, #dcddde);
+  border-bottom-color: var(--background-modifier-border, #404040);
 }
 
-.dark .w-md-editor-text-input {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
+.markdown-preview h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 1.25em 0 0.5em 0;
+  color: var(--text-accent, #2c3e50);
+  border-bottom: 1px solid var(--background-modifier-border, #e1e4e8);
+  padding-bottom: 0.2em;
 }
 
-/* Target the specific textarea class */
-textarea.w-md-editor-text-input {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
+.dark .markdown-preview h2 {
+  color: var(--text-accent, #dcddde);
+  border-bottom-color: var(--background-modifier-border, #404040);
 }
 
-.dark textarea.w-md-editor-text-input {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
+.markdown-preview h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 1em 0 0.5em 0;
+  color: var(--text-accent, #2c3e50);
 }
 
-/* Force text visibility with highest specificity */
-.markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-input {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+.dark .markdown-preview h3 {
+  color: var(--text-accent, #dcddde);
 }
 
-.dark .markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-input {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+.markdown-preview p {
+  margin: 0.75em 0;
+  line-height: 1.6;
 }
 
-/* Target the pre element that actually displays the text */
-.markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-pre {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor .w-md-editor-text-container .w-md-editor-text-pre {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-/* Force visibility in edit mode */
-.w-md-editor-text-pre {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-  min-height: 20px !important;
-}
-
-.dark .w-md-editor-text-pre {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-  min-height: 20px !important;
-}
-
-/* Override any conflicting styles */
-.w-md-editor-text-container .w-md-editor-text-pre {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.dark .w-md-editor-text-container .w-md-editor-text-pre {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.markdown-editor-content {
-  background: white;
-}
-
-.markdown-editor-content .w-md-editor {
-  background: white !important;
-  border: none;
-}
-
-.markdown-editor-content .w-md-editor-text-container {
-  background: white !important;
-}
-
-.markdown-editor-content .w-md-editor-text {
-  background: white !important;
-  color: #1e293b !important;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-}
-
-.markdown-editor-content .w-md-editor-text-pre {
-  background: white !important;
-  color: #1e293b !important;
-}
-
-.markdown-editor-content .w-md-editor-text-input {
-  background: white !important;
-  color: #1e293b !important;
-}
-
-.markdown-editor-content .w-md-editor-preview {
-  background: white !important;
-  color: #1e293b !important;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown {
-  background: white !important;
-  color: #1e293b !important;
-}
-
-/* Fix text visibility in editor */
-.markdown-editor-content .w-md-editor-text-container textarea {
-  color: #1e293b !important;
-  background: white !important;
-}
-
-.markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
-  color: #1e293b !important;
-  background: white !important;
-}
-
-/* Force text visibility in all editor elements */
-.markdown-editor-content .w-md-editor-text-container * {
-  color: #1e293b !important;
-}
-
-.markdown-editor-content .w-md-editor-text-container textarea,
-.markdown-editor-content .w-md-editor-text-container input {
-  color: #1e293b !important;
-  background: white !important;
-}
-
-/* More aggressive text visibility fixes */
-.markdown-editor-content .w-md-editor-text-container textarea {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-}
-
-.markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
-  color: #1e293b !important;
-  background: white !important;
-  opacity: 1 !important;
-}
-
-/* Force visibility on all text elements */
-.markdown-editor-content .w-md-editor-text-container textarea::placeholder {
-  color: #64748b !important;
-  opacity: 1 !important;
-}
-
-/* Dark mode text visibility fixes */
-.dark .markdown-editor-content .w-md-editor-text-container * {
-  color: #f1f5f9 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-container textarea,
-.dark .markdown-editor-content .w-md-editor-text-container input {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-}
-
-/* More aggressive dark mode text visibility */
-.dark .markdown-editor-content .w-md-editor-text-container textarea {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-  opacity: 1 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-container textarea::placeholder {
-  color: #94a3b8 !important;
-  opacity: 1 !important;
-}
-
-/* Markdown preview styling */
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 1rem 0;
+.markdown-preview strong {
+  font-weight: 600;
   color: #1e293b;
 }
 
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0.875rem 0;
-  color: #1e293b;
+.dark .markdown-preview strong {
+  color: #f1f5f9;
 }
 
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h3 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin: 0.75rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h4 {
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin: 0.625rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h5 {
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown h6 {
-  font-size: 0.875rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown p {
-  margin: 0.5rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown strong {
-  font-weight: bold;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown em {
-  font-style: italic;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown code {
-  background: #f1f5f9;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown pre {
-  background: #f1f5f9;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  margin: 0.5rem 0;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown pre code {
-  background: transparent;
-  padding: 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown ul {
-  margin: 0.5rem 0;
-  padding-left: 1.5rem;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown ol {
-  margin: 0.5rem 0;
-  padding-left: 1.5rem;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown li {
-  margin: 0.25rem 0;
-  color: #1e293b;
-}
-
-.markdown-editor-content .w-md-editor-preview .wmde-markdown blockquote {
-  border-left: 4px solid #e2e8f0;
-  padding-left: 1rem;
-  margin: 0.5rem 0;
-  color: #64748b;
+.markdown-preview em {
   font-style: italic;
 }
 
-/* Dark mode styles */
-.dark .markdown-editor {
-  border-color: #475569;
-}
-
-.dark .markdown-editor-content {
-  background: #1e293b;
-}
-
-.dark .markdown-editor-content .w-md-editor {
-  background: #1e293b !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-container {
-  background: #1e293b !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-pre {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-input {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown {
-  background: #1e293b !important;
-  color: #f1f5f9 !important;
-}
-
-/* Dark mode text visibility fixes */
-.dark .markdown-editor-content .w-md-editor-text-container textarea {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-}
-
-.dark .markdown-editor-content .w-md-editor-text-container .w-md-editor-text {
-  color: #f1f5f9 !important;
-  background: #1e293b !important;
-}
-
-/* Dark mode markdown preview styling */
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h1,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h2,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h3,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h4,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h5,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown h6 {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown p {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown strong {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown em {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown code {
-  background: #334155;
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown pre {
-  background: #334155;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown pre code {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown ul,
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown ol {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown li {
-  color: #f1f5f9;
-}
-
-.dark .markdown-editor-content .w-md-editor-preview .wmde-markdown blockquote {
-  border-left-color: #475569;
-  color: #94a3b8;
-}
-
-/* Custom scrollbar */
-.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+.markdown-preview code {
+  background-color: var(--code-background, rgba(175, 184, 193, 0.2));
+  color: var(--text-accent, #2c3e50);
+  padding: 0.2em 0.4em;
   border-radius: 3px;
+  font-size: 0.9em;
+  font-family: var(--font-monospace, ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace);
 }
 
-.markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.dark .markdown-preview code {
+  background-color: var(--code-background, rgba(110, 118, 129, 0.4));
+  color: var(--text-accent, #dcddde);
 }
 
-.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-track {
-  background: #334155;
+.markdown-preview pre {
+  background-color: var(--code-background, #f6f8fa);
+  border-radius: 6px;
+  padding: 1em;
+  margin: 1em 0;
+  overflow: auto;
+  font-family: var(--font-monospace, ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace);
+  font-size: 0.9em;
+  line-height: 1.5;
 }
 
-.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb {
-  background: #64748b;
+.dark .markdown-preview pre {
+  background-color: var(--code-background, #161b22);
 }
 
-.dark .markdown-editor-content .w-md-editor-text-container::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.markdown-preview pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 100%;
+}
+
+.markdown-preview ul, .markdown-preview ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.markdown-preview li {
+  margin: 0.25em 0;
+  line-height: 1.6;
+}
+
+.markdown-preview blockquote {
+  padding: 0 1em;
+  color: var(--text-muted, #6a737d);
+  border-left: 4px solid var(--background-modifier-border, #e1e4e8);
+  margin: 1em 0;
+  font-style: italic;
+}
+
+.dark .markdown-preview blockquote {
+  color: var(--text-muted, #8b949e);
+  border-left-color: var(--background-modifier-border, #404040);
+}
+
+.markdown-preview a {
+  color: var(--text-accent, #2c3e50);
+  text-decoration: underline;
+  text-decoration-color: var(--text-faint, #8b949e);
+}
+
+.markdown-preview a:hover {
+  color: var(--text-accent-hover, #1a73e8);
+  text-decoration-color: var(--text-accent-hover, #1a73e8);
+}
+
+.dark .markdown-preview a {
+  color: var(--text-accent, #dcddde);
+  text-decoration-color: var(--text-faint, #6a737d);
+}
+
+.dark .markdown-preview a:hover {
+  color: var(--text-accent-hover, #58a6ff);
+  text-decoration-color: var(--text-accent-hover, #58a6ff);
+}
+
+.markdown-preview hr {
+  border: none;
+  border-top: 1px solid var(--background-modifier-border, #e1e4e8);
+  margin: 2em 0;
+  height: 0;
+}
+
+.dark .markdown-preview hr {
+  border-top-color: var(--background-modifier-border, #404040);
 }
