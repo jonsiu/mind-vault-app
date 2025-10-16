@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MarkdownEditor } from '@/components/editor/MarkdownEditor';
+import CleanMarkdownEditor from '@/components/editor/CleanMarkdownEditor';
 import { Button } from '@/components/ui/Button';
 
 interface Note {
@@ -128,12 +128,11 @@ export function InlineNoteEditor({ note, onSave }: InlineNoteEditorProps) {
 
       {/* Editor */}
       <div className="flex-1 overflow-hidden">
-        <MarkdownEditor
+        <CleanMarkdownEditor
           value={content}
           onChange={setContent}
           placeholder="Start writing your note... Use [[note title]] to link to other notes."
           height={600}
-          isEditing={true}
         />
       </div>
 
